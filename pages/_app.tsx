@@ -1,7 +1,26 @@
+import React, { useMemo } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import { useStore } from 'effector-react';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+
+import Layout from '../components/Layout';
+import { $preferences } from '../store/preferences';
+
 function MyApp({ Component, pageProps }: AppProps) {
+  const { colorMode } = useStore($preferences);
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: colorMode,
+        },
+      }),
+    [colorMode],
+  );
+
   return (
     <>
       <Head>
@@ -10,7 +29,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </Head>
-      <Component {...pageProps} />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
     </>
   );
 }
