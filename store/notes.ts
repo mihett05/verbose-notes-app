@@ -81,4 +81,6 @@ $notes
     return state.filter((v) => v.uid !== uid);
   });
 
-loadNotes();
+if (typeof window !== 'undefined') {
+  loadNotes();
+}

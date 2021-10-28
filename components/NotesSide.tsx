@@ -5,20 +5,7 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 function NotesSide() {
   return (
-    <Drawer
-      sx={{
-        width: 240,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
-          width: 240,
-          boxSizing: 'border-box',
-        },
-      }}
-      variant="permanent"
-      anchor="left"
-    >
-      <Toolbar />
-      <Divider />
+    <>
       <ListItem button>
         <NoteAddIcon />
         <ListItemText
@@ -43,7 +30,7 @@ function NotesSide() {
           </ListItem>
         ))}
       </List>
-    </Drawer>
+    </>
   );
 }
 

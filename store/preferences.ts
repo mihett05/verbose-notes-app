@@ -55,4 +55,6 @@ $preferences
     };
   });
 
-loadPreferences();
+if (typeof window !== 'undefined') {
+  loadPreferences();
+}
