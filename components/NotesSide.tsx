@@ -1,12 +1,26 @@
 import React from 'react';
+import { useRouter } from 'next/router';
+import { useStore } from 'effector-react';
+
 import { Divider, Drawer, List, ListItem, ListItemText, Toolbar } from '@mui/material';
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
+import { $notes, addNote, generateUid } from '../store/notes';
+
 function NotesSide() {
+  const router = useRouter();
+  const store = useStore($notes);
+
+  const onAddNote = () => {
+    const uid = generateUid();
+    addNote(uid);
+    router.push(`/${uid}`);
+  };
+
   return (
     <>
-      <ListItem button>
+      <ListItem button onClick={onAddNote}>
         <NoteAddIcon />
         <ListItemText
           sx={{
@@ -18,11 +32,17 @@ function NotesSide() {
       </ListItem>
       <Divider />
       <List>
-        {['Note 1', "Very Long Note Name that doesn't into sidebar"].map((note, i) => (
-          <ListItem button key={i}>
+        {store.map((note, i) => (
+          <ListItem
+            button
+            key={i}
+            onClick={() => {
+              router.push(`/${note.uid}`);
+            }}
+          >
             <StickyNote2Icon />
             <ListItemText
-              primary={note.length > 18 ? note.slice(0, 18).trim() + '...' : note}
+              primary={note.name.length > 18 ? note.name.slice(0, 18).trim() + '...' : note.name}
               sx={{
                 padding: '0 0.5vw',
               }}
