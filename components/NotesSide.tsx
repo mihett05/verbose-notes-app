@@ -32,23 +32,34 @@ function NotesSide() {
       </ListItem>
       <Divider />
       <List>
-        {store.map((note, i) => (
-          <ListItem
-            button
-            key={i}
-            onClick={() => {
-              router.push(`/${note.uid}`);
-            }}
-          >
-            <StickyNote2Icon />
-            <ListItemText
-              primary={note.name.length > 18 ? note.name.slice(0, 18).trim() + '...' : note.name}
-              sx={{
-                padding: '0 0.5vw',
+        {store
+          .sort((a, b) => {
+            if (a.createdAt > b.createdAt) {
+              return -1;
+            } else if (a.createdAt === b.createdAt) {
+              return 0;
+            } else {
+              return 1;
+            }
+          })
+          .map((note, i) => (
+            <ListItem
+              button
+              key={i}
+              onClick={() => {
+                router.push(`/${note.uid}`);
               }}
-            />
-          </ListItem>
-        ))}
+            >
+              <StickyNote2Icon />
+              <ListItemText
+                primary={note.name.length > 18 ? note.name.slice(0, 18).trim() + '...' : note.name}
+                secondary={note.createdAt.toLocaleString()}
+                sx={{
+                  padding: '0 0.5vw',
+                }}
+              />
+            </ListItem>
+          ))}
       </List>
     </>
   );

@@ -7,6 +7,7 @@ import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 
 import Layout from '../components/Layout';
 import { $preferences } from '../store/preferences';
+import { SnackbarProvider } from 'notistack';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { colorMode } = useStore($preferences);
@@ -30,10 +31,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <SnackbarProvider>
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SnackbarProvider>
       </ThemeProvider>
     </>
   );

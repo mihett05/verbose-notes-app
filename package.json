@@ -18,6 +18,7 @@
     "effector-react": "^22.0.4",
     "marked": "^3.0.8",
     "next": "11.1.2",
+    "notistack": "^2.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },

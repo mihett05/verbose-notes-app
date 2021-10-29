@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Note, editNoteName } from '../store/notes';
+
 import { Box, TextField, Typography } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+
+import { Note, editNoteName } from '../store/notes';
 
 interface NoteHeaderProps {
   note: Note;
@@ -26,6 +29,7 @@ function NoteHeader({ note }: NoteHeaderProps) {
   return isEditing ? (
     <TextField
       variant="outlined"
+      size="small"
       value={editingValue}
       onChange={(e) => setEditingValue(e.target.value)}
       onKeyPress={(event) => {
@@ -35,10 +39,11 @@ function NoteHeader({ note }: NoteHeaderProps) {
       }}
       onBlur={onFinishEditing}
       autoFocus
+      fullWidth
     />
   ) : (
     <Typography variant="h6" onClick={onHeaderClick}>
-      {note.name}
+      {note.name} <EditIcon fontSize="small" />
     </Typography>
   );
 }
