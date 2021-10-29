@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from 'effector-react';
 
-import { Divider, Drawer, List, ListItem, ListItemText, Toolbar } from '@mui/material';
+import { Divider, List, ListItem, ListItemText } from '@mui/material';
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
