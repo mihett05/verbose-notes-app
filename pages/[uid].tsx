@@ -7,6 +7,7 @@ import { Box, Grid, Tab, Tabs, TextField, Typography } from '@mui/material';
 import { $notes, Note } from '../store/notes';
 import NoteHeader from '../components/NoteHeader';
 import NoteEditor from '../components/NoteEditor';
+import NoteMarked from '../components/NoteMarked';
 
 const a11yProps = (index: number) => ({
   id: `simple-tab-${index}`,
@@ -82,6 +83,9 @@ function NoteEdit() {
       </Box>
       <TabPanel value={tab} index={0}>
         <NoteEditor note={note} />
+      </TabPanel>
+      <TabPanel index={tab} value={1}>
+        <NoteMarked note={note} />
       </TabPanel>
     </Box>
   );

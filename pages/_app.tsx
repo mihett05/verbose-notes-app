@@ -9,6 +9,8 @@ import Layout from '../components/Layout';
 import { $preferences } from '../store/preferences';
 import { SnackbarProvider } from 'notistack';
 
+import 'highlight.js/styles/github.css';
+
 function MyApp({ Component, pageProps }: AppProps) {
   const { colorMode } = useStore($preferences);
 
