@@ -1,6 +1,7 @@
 import React from 'react';
-import { NextRouter, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useStore } from 'effector-react';
+import { useTranslation } from 'react-i18next';
 
 import { Divider, List, ListItem, ListItemText } from '@mui/material';
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
@@ -12,6 +13,7 @@ import { $notes, addNoteAndRoute, uploadAndAddNote, sortNotesByDate } from '../s
 function NotesSide() {
   const router = useRouter();
   const store = useStore($notes);
+  const { t } = useTranslation();
 
   const onAddNote = () => addNoteAndRoute(router);
   const onUpload = () => uploadAndAddNote(router);
@@ -25,7 +27,7 @@ function NotesSide() {
             padding: '0 0.5vw',
           }}
         >
-          Add Note
+          {t('addNote')}
         </ListItemText>
       </ListItem>
       <ListItem button onClick={onUpload}>
@@ -35,7 +37,7 @@ function NotesSide() {
             padding: '0 0.5vw',
           }}
         >
-          Upload Note
+          {t('uploadNote')}
         </ListItemText>
       </ListItem>
       <Divider />

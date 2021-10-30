@@ -11,6 +11,8 @@ import { SnackbarProvider } from 'notistack';
 
 import 'highlight.js/styles/github.css';
 
+import '../i18n';
+
 function MyApp({ Component, pageProps }: AppProps) {
   const { colorMode } = useStore($preferences);
 

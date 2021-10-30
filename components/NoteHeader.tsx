@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 import { Button, TextField, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -12,11 +13,13 @@ interface NoteHeaderProps {
 }
 
 function NoteHeader({ note }: NoteHeaderProps) {
+  // Component for editing notes name and doing another actions with note
   const [isEditing, setEditing] = useState(false);
   const [editingValue, setEditingValue] = useState('');
   const [isDeleteOpen, setDeleteOpen] = useState(false);
 
   const router = useRouter();
+  const { t } = useTranslation();
 
   const startEditing = () => {
     setEditing(true);
@@ -36,11 +39,13 @@ function NoteHeader({ note }: NoteHeaderProps) {
   };
 
   const deleteCurrentNote = () => {
+    // push before deleting because user see Note Not Found if delete before pushing
     router.push('/');
     deleteNote(note.uid);
   };
 
   const downloadNote = () => {
+    // create download link and click on it for downloading note
     const link = document.createElement('a');
     link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(note.content);
     link.download = `${note.name}.txt`;
@@ -71,9 +76,9 @@ function NoteHeader({ note }: NoteHeaderProps) {
           {note.name} <EditIcon fontSize="small" />
         </Typography>
       )}
-      <Button onClick={startEditing}>Edit</Button>
-      <Button onClick={openDelete}>Delete</Button>
-      <Button onClick={downloadNote}>Download</Button>
+      <Button onClick={startEditing}>{t('edit')}</Button>
+      <Button onClick={openDelete}>{t('delete')}</Button>
+      <Button onClick={downloadNote}>{t('download')}</Button>
       <DeleteDialog open={isDeleteOpen} setOpen={setDeleteOpen} onDelete={deleteCurrentNote} />
     </>
   );

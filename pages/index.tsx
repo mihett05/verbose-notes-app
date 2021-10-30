@@ -2,6 +2,7 @@ import React from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useStore } from 'effector-react';
+import { useTranslation } from 'react-i18next';
 import { Box, Typography, Link } from '@mui/material';
 
 import { $notes, addNoteAndRoute, uploadAndAddNote, sortNotesByDate } from '../store/notes';
@@ -9,6 +10,7 @@ import { $notes, addNoteAndRoute, uploadAndAddNote, sortNotesByDate } from '../s
 const Home: NextPage = () => {
   const router = useRouter();
   const store = useStore($notes);
+  const { t } = useTranslation();
 
   const onAddNote = () => addNoteAndRoute(router);
   const onUpload = () => uploadAndAddNote(router);
@@ -37,7 +39,7 @@ const Home: NextPage = () => {
               cursor: 'pointer',
             }}
           >
-            Add Note
+            {t('indexAddNote')}
           </Link>
           ,{' '}
           <Link
@@ -46,16 +48,16 @@ const Home: NextPage = () => {
               cursor: 'pointer',
             }}
           >
-            Select Note
+            {t('indexSelectNote')}
           </Link>{' '}
-          from the sidebar or{' '}
+          {t('indexMessage')}{' '}
           <Link
             onClick={onUpload}
             sx={{
               cursor: 'pointer',
             }}
           >
-            Upload Note
+            {t('indexUploadNote')}
           </Link>
         </Typography>
       </Box>

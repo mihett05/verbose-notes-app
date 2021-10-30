@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from 'effector-react';
+import { useTranslation } from 'react-i18next';
 
-import { Box, Grid, Tab, Tabs, TextField, Typography } from '@mui/material';
+import { Box, Tab, Tabs, Typography } from '@mui/material';
 
-import { $notes, Note } from '../store/notes';
+import { $notes } from '../store/notes';
 import NoteHeader from '../components/NoteHeader';
 import NoteEditor from '../components/NoteEditor';
 import NoteMarked from '../components/NoteMarked';
@@ -38,6 +39,8 @@ function NoteEdit() {
   const router = useRouter();
   const { uid } = router.query;
 
+  const { t } = useTranslation();
+
   const [tab, setTab] = useState(0);
 
   const store = useStore($notes);
@@ -56,7 +59,7 @@ function NoteEdit() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h3">Note Not Found</Typography>
+          <Typography variant="h3">{t('noteNotFound')}</Typography>
         </Box>
       </div>
     );
@@ -77,7 +80,7 @@ function NoteEdit() {
         }}
       >
         <Tabs value={tab} onChange={(_, v) => setTab(v)}>
-          <Tab label="Note" {...a11yProps(0)} />
+          <Tab label={t('note')} {...a11yProps(0)} />
           <Tab label="Markdown" {...a11yProps(1)} />
         </Tabs>
       </Box>

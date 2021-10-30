@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 interface DeleteDialogProps {
@@ -8,6 +9,7 @@ interface DeleteDialogProps {
 }
 
 export default function AlertDialog({ open, setOpen, onDelete }: DeleteDialogProps) {
+  const { t } = useTranslation();
   const onClose = () => {
     setOpen(false);
   };
@@ -24,16 +26,14 @@ export default function AlertDialog({ open, setOpen, onDelete }: DeleteDialogPro
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Do you really want to delete this note?</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{t('deleteDialogHeader')}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          This note will be deleted forever and you can't recover it.
-        </DialogContentText>
+        <DialogContentText id="alert-dialog-description">{t('deleteDialogText')}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onYes}>Yes</Button>
+        <Button onClick={onYes}>{t('deleteDialogYes')}</Button>
         <Button onClick={onClose} autoFocus>
-          No
+          {t('deleteDialogNo')}
         </Button>
       </DialogActions>
     </Dialog>

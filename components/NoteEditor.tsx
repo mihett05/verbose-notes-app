@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { TextField } from '@mui/material';
 import { useSnackbar } from 'notistack';
+
 import { Note, editNoteContent } from '../store/notes';
 
 interface NoteEditorProps {
@@ -8,10 +11,11 @@ interface NoteEditorProps {
 }
 
 function NoteEditor({ note: { uid, content } }: NoteEditorProps) {
-  const [value, setValue] = useState(content);
+  const [value, setValue] = useState(content); // current value of text field
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { t } = useTranslation();
 
   const clearTimer = () => {
     if (timer !== null) clearTimeout(timer);
@@ -32,6 +36,7 @@ function NoteEditor({ note: { uid, content } }: NoteEditorProps) {
 
   useEffect(() => {
     clearTimer();
+    // Updating state only after 0.1s of inactive
     setTimer(setTimeout(saveValue, 100));
     return clearTimer;
   }, [value]);
@@ -46,7 +51,7 @@ function NoteEditor({ note: { uid, content } }: NoteEditorProps) {
       onKeyDownCapture={(event) => {
         if (event.key === 's' && event.ctrlKey) {
           event.preventDefault();
-          enqueueSnackbar('Saved!', {
+          enqueueSnackbar(t('saved'), {
             variant: 'success',
             preventDuplicate: true,
             autoHideDuration: 1000,
