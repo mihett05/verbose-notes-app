@@ -1,19 +1,58 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
+
 import { useStore } from 'effector-react';
 import { useTranslation } from 'react-i18next';
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { restrictToVerticalAxis, restrictToWindowEdges } from '@dnd-kit/modifiers';
 
 import { Divider, List, ListItem, ListItemText } from '@mui/material';
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
-import { $notes, addNoteAndRoute, uploadAndAddNote, sortNotesByDate } from '../store/notes';
+import { $notes, addNoteAndRoute, uploadAndAddNote, sortNotesByDate, moveNotes } from '../store/notes';
+import NoteListItem from './NoteListItem';
 
 function NotesSide() {
   const router = useRouter();
   const store = useStore($notes);
   const { t } = useTranslation();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over !== null) {
+      if (active.id !== over.id) {
+        moveNotes({
+          fromUid: active.id,
+          toUid: over.id,
+        });
+      } else if (active.id === over.id) {
+        router.push(`/${active.id}`);
+      }
+    }
+  };
 
   const onAddNote = () => addNoteAndRoute(router);
   const onUpload = () => uploadAndAddNote(router);
@@ -42,24 +81,18 @@ function NotesSide() {
       </ListItem>
       <Divider />
       <List>
-        {store.sort(sortNotesByDate).map((note, i) => (
-          <ListItem
-            button
-            key={i}
-            onClick={() => {
-              router.push(`/${note.uid}`);
-            }}
-          >
-            <StickyNote2Icon />
-            <ListItemText
-              primary={note.name.length > 18 ? note.name.slice(0, 18).trim() + '...' : note.name}
-              secondary={note.createdAt.toLocaleString()}
-              sx={{
-                padding: '0 0.5vw',
-              }}
-            />
-          </ListItem>
-        ))}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
+        >
+          <SortableContext items={store.map((v) => v.uid)} strategy={verticalListSortingStrategy}>
+            {store.map((note) => (
+              <NoteListItem note={note} key={note.uid} />
+            ))}
+          </SortableContext>
+        </DndContext>
       </List>
     </>
   );

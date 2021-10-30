@@ -1,5 +1,6 @@
 import { createEvent, createStore, forward } from 'effector';
 import { NextRouter } from 'next/router';
+import { arrayMove } from '@dnd-kit/sortable';
 
 export type Note = {
   uid: string;
@@ -13,6 +14,11 @@ type NoteAction<T = string> = {
   data: T;
 };
 
+type NotesMove = {
+  fromUid: string;
+  toUid: string;
+};
+
 type NotesStore = Note[];
 
 export const $notes = createStore<NotesStore>([]);
@@ -22,12 +28,13 @@ export const uploadNote = createEvent<Note>();
 export const editNoteName = createEvent<NoteAction>();
 export const editNoteContent = createEvent<NoteAction>();
 export const deleteNote = createEvent<string>();
+export const moveNotes = createEvent<NotesMove>();
 
 const saveNotes = createEvent();
 const loadNotes = createEvent();
 
 forward({
-  from: [addNote, editNoteName, editNoteContent, deleteNote],
+  from: [addNote, editNoteName, editNoteContent, deleteNote, moveNotes],
   to: saveNotes,
 });
 
@@ -127,10 +134,10 @@ $notes
       content: '',
       createdAt: new Date(),
     };
-    return [...state, newNote];
+    return [newNote, ...state];
   })
   .on(uploadNote, (state, note) => {
-    return [...state, note];
+    return [note, ...state];
   })
   .on(editNoteName, (state, action) => {
     const result = state.find((v) => v.uid === action.uid);
@@ -150,6 +157,11 @@ $notes
   })
   .on(deleteNote, (state, uid) => {
     return state.filter((v) => v.uid !== uid);
+  })
+  .on(moveNotes, (state, notes) => {
+    const from = state.findIndex((v) => v.uid === notes.fromUid);
+    const to = state.findIndex((v) => v.uid === notes.toUid);
+    return [...arrayMove(state, from, to)];
   });
 
 if (typeof window !== 'undefined') {
