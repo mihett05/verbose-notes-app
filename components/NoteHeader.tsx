@@ -72,7 +72,13 @@ function NoteHeader({ note }: NoteHeaderProps) {
           fullWidth
         />
       ) : (
-        <Typography variant="h6" onClick={startEditing}>
+        <Typography
+          variant="h6"
+          onClick={startEditing}
+          sx={{
+            color: 'text.primary',
+          }}
+        >
           {note.name} <EditIcon fontSize="small" />
         </Typography>
       )}

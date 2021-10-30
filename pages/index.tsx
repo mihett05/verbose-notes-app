@@ -32,7 +32,12 @@ const Home: NextPage = () => {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h4">
+        <Typography
+          variant="h4"
+          sx={{
+            color: 'text.primary',
+          }}
+        >
           <Link
             onClick={onAddNote}
             sx={{

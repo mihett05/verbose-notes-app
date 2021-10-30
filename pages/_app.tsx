@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -14,17 +14,21 @@ import 'highlight.js/styles/github.css';
 import '../i18n';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { colorMode } = useStore($preferences);
+  const store = useStore($preferences);
+  // there is a bug with store and next.js(i guess) and I should to store color mode in another variable to prevent ssr bug
+  const [colorMode, setColorMode] = useState<'light' | 'dark'>('light');
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: colorMode,
-        },
-      }),
-    [colorMode],
-  );
+  useEffect(() => {
+    setColorMode(store.colorMode);
+  }, [store]);
+
+  const theme = useMemo(() => {
+    return createTheme({
+      palette: {
+        mode: colorMode,
+      },
+    });
+  }, [colorMode]);
 
   return (
     <>
