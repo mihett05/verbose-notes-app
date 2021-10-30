@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
 import DeleteDialog from './DeleteDialog';
@@ -14,6 +15,8 @@ function NoteHeader({ note }: NoteHeaderProps) {
   const [isEditing, setEditing] = useState(false);
   const [editingValue, setEditingValue] = useState('');
   const [isDeleteOpen, setDeleteOpen] = useState(false);
+
+  const router = useRouter();
 
   const startEditing = () => {
     setEditing(true);
@@ -33,13 +36,14 @@ function NoteHeader({ note }: NoteHeaderProps) {
   };
 
   const deleteCurrentNote = () => {
+    router.push('/');
     deleteNote(note.uid);
   };
 
   const downloadNote = () => {
     const link = document.createElement('a');
     link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(note.content);
-    link.download = note.name;
+    link.download = `${note.name}.txt`;
 
     link.click();
     link.remove();
