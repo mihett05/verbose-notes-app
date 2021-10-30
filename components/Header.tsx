@@ -13,7 +13,7 @@ interface HeaderProps {
 }
 
 function Header({ children }: HeaderProps) {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null); // for lang menu
 
   const { t } = useTranslation();
 

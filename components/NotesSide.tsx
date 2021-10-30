@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 
 import { useStore } from 'effector-react';
@@ -12,20 +12,14 @@ import {
   useSensors,
   DragEndEvent,
 } from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis, restrictToWindowEdges } from '@dnd-kit/modifiers';
 
 import { Divider, List, ListItem, ListItemText } from '@mui/material';
-import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
-import { $notes, addNoteAndRoute, uploadAndAddNote, sortNotesByDate, moveNotes } from '../store/notes';
+import { $notes, addNoteAndRoute, uploadAndAddNote, moveNotes } from '../store/notes';
 import NoteListItem from './NoteListItem';
 
 function NotesSide() {
@@ -44,11 +38,13 @@ function NotesSide() {
     const { active, over } = event;
     if (over !== null) {
       if (active.id !== over.id) {
+        // if note was moved
         moveNotes({
           fromUid: active.id,
           toUid: over.id,
         });
       } else if (active.id === over.id) {
+        // if user clicked on note
         router.push(`/${active.id}`);
       }
     }

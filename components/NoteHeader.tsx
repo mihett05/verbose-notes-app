@@ -21,6 +21,7 @@ function NoteHeader({ note }: NoteHeaderProps) {
   const router = useRouter();
   const { t } = useTranslation();
 
+  // editing note name by clicking it
   const startEditing = () => {
     setEditing(true);
     setEditingValue(note.name);

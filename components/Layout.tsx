@@ -8,6 +8,7 @@ interface LayoutProps {
   children?: React.ReactNode;
 }
 
+// From MUI documentation. Used for padding for header and sidebar
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
 }>(({ theme, open }) => ({

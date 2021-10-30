@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     setColorMode(store.colorMode);
   }, [store]);
 
+  // updating mui theme on switching color mode
   const theme = useMemo(() => {
     return createTheme({
       palette: {

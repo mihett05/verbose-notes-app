@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useStore } from 'effector-react';
 import { useTranslation } from 'react-i18next';
@@ -41,12 +41,14 @@ function NoteEdit() {
 
   const { t } = useTranslation();
 
+  // tab index for switching between note editing and markdown
   const [tab, setTab] = useState(0);
 
   const store = useStore($notes);
   const note = store.find((v) => v.uid === uid) || null;
 
   if (Array.isArray(uid) || uid === undefined || note === null) {
+    // if note isn't found
     return (
       <div>
         <Box

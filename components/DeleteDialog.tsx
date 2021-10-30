@@ -8,7 +8,8 @@ interface DeleteDialogProps {
   onDelete: () => any;
 }
 
-export default function AlertDialog({ open, setOpen, onDelete }: DeleteDialogProps) {
+export default function DeleteDialog({ open, setOpen, onDelete }: DeleteDialogProps) {
+  // Component for asking client if they sure about deleting note
   const { t } = useTranslation();
   const onClose = () => {
     setOpen(false);

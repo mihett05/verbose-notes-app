@@ -12,7 +12,7 @@ Verbose Notes - notes app created with React that stores notes in local storage
 ## Used technologies
 1. 🕹 Next.js - SSR and app hosting
 1. ☢️ Typescript - type checking and 🤘
-1. 🎨 Material UI 5 - I've tried a new version of MUI in this project, new styles system looks great
+1. 🎨 Material UI 5 - new version of MUI, great design system
 1. ☄️ Effector - flexible and convenient state manager
 1. 🌐 i18next - internalization of site labels
 1. ✊ dnd-kit - drag and drop for notes side

@@ -16,8 +16,8 @@ function NoteMarked({ note: { content } }: NoteMarkedProps) {
     if (ref.current !== null) {
       ref.current.innerHTML = DOMPurify.sanitize(
         marked(content, {
-          sanitize: true,
-          highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
+          sanitize: true, // replace html < > with &lt; and &gt;
+          highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value, // detect only provided language
         }),
       );
     }

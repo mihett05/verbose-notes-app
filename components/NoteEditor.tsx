@@ -11,10 +11,11 @@ interface NoteEditorProps {
 }
 
 function NoteEditor({ note: { uid, content } }: NoteEditorProps) {
+  // Component for editing note content. It saves new content only after 0.1s of inactive
   const [value, setValue] = useState(content); // current value of text field
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
 
   const clearTimer = () => {
@@ -29,6 +30,7 @@ function NoteEditor({ note: { uid, content } }: NoteEditorProps) {
   };
 
   useEffect(() => {
+    // if note content was updated outside of editor
     if (content !== value) {
       setValue(content);
     }
